@@ -40,6 +40,8 @@ import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
 public class SmsSendServiceImpl implements SmsSendService {
 
     @Resource
+    private SmsLogMapper smsLogMapper;  //irujia
+    @Resource
     private AdminUserService adminUserService;
     @Resource
     private MemberService memberService;
@@ -178,14 +180,22 @@ public class SmsSendServiceImpl implements SmsSendService {
         // 获得渠道对应的 SmsClient 客户端
         SmsClient smsClient = smsChannelService.getSmsClient(channelCode);
         Assert.notNull(smsClient, "短信客户端({}) 不存在", channelCode);
+
         // 解析内容
         List<SmsReceiveRespDTO> receiveResults = smsClient.parseSmsReceiveStatus(text);
         if (CollUtil.isEmpty(receiveResults)) {
             return;
         }
-        // 更新短信日志的接收结果. 因为量一般不大，所以先使用 for 循环更新
-        receiveResults.forEach(result -> smsLogService.updateSmsReceiveResult(result.getLogId(),
-                result.getSuccess(), result.getReceiveTime(), result.getErrorCode(), result.getErrorMsg()));
+
+        // irujia 更新短信日志的接收结果
+        receiveResults.forEach(result -> {
+            Long logId = smsLogMapper.findLogIdByApiSerialNo(result.getSerialNo());
+            if (logId != null) {
+                smsLogService.updateSmsReceiveResult(logId, result.getSuccess(), result.getReceiveTime(), result.getErrorCode(), result.getErrorMsg());
+            } else {
+                log.warn("未找到对应的日志记录，ApiSerialNo: {}", result.getSerialNo());
+            }
+        });
     }
 
 }

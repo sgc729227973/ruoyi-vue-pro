@@ -22,4 +22,18 @@ public interface SmsLogMapper extends BaseMapperX<SmsLogDO> {
                 .orderByDesc(SmsLogDO::getId));
     }
 
+    /**
+     * irujia修改
+     * 根据短信 API 返回的序列号 (api_serial_no) 查找对应的日志 ID (logId)
+     *
+     * @param apiSerialNo 短信的 API 序列号
+     * @return 日志 ID，如果没有找到返回 null
+     */
+    default Long findLogIdByApiSerialNo(String apiSerialNo) {
+        return Optional.ofNullable(selectOne(new LambdaQueryWrapperX<SmsLogDO>()
+                        .select(SmsLogDO::getId) // 只选择 ID 字段
+                        .eq(SmsLogDO::getApiSerialNo, apiSerialNo))) // 使用 api_serial_no 字段进行查询
+                .map(SmsLogDO::getId)
+                .orElse(null);
+    }
 }
