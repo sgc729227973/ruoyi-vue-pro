@@ -7,6 +7,8 @@ import cn.iocoder.yudao.module.system.controller.admin.sms.vo.log.SmsLogPageReqV
 import cn.iocoder.yudao.module.system.dal.dataobject.sms.SmsLogDO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Optional;
+
 @Mapper
 public interface SmsLogMapper extends BaseMapperX<SmsLogDO> {
 

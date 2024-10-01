@@ -8,6 +8,7 @@ import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.datapermission.core.annotation.DataPermission;
+import cn.iocoder.yudao.module.system.dal.mysql.sms.SmsLogMapper;
 import cn.iocoder.yudao.module.system.framework.sms.core.client.SmsClient;
 import cn.iocoder.yudao.module.system.framework.sms.core.client.dto.SmsReceiveRespDTO;
 import cn.iocoder.yudao.module.system.framework.sms.core.client.dto.SmsSendRespDTO;
