@@ -214,10 +214,10 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // mock 获得 Client
         FileClient fileClient = mock(FileClient.class);
         when(fileClientFactory.getFileClient(eq(id))).thenReturn(fileClient);
-        when(fileClient.upload(any(), any(), any())).thenReturn("https://www.iocoder.cn");
+        when(fileClient.upload(any(), any(), any())).thenReturn("https://www.irujia.cn");
 
         // 调用，并断言
-        assertEquals("https://www.iocoder.cn", fileConfigService.testFileConfig(id));
+        assertEquals("https://www.irujia.cn", fileConfigService.testFileConfig(id));
     }
 
     @Test
