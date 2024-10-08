@@ -44,5 +44,12 @@ public class SmsReceiveRespDTO {
      * 对应 SysSmsLogDO 的编号
      */
     private Long logId;
-
+    /**
+     * 接收状态 irujia
+     *
+     * 0 - 等待结果
+     * 10 - 接收成功
+     * 20 - 接收失败
+     */
+    private Integer receiveStatus;
 }

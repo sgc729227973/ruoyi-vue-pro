@@ -20,7 +20,7 @@ public class LocalFileClientTest {
         client.init();
         // 上传文件
         String path = IdUtil.fastSimpleUUID() + ".jpg";
-        byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
+        byte[] content = ResourceUtil.readBytes("file/testimg.jpg");
         String fullPath = client.upload(content, path, "image/jpeg");
         System.out.println("访问地址：" + fullPath);
         client.delete(path);

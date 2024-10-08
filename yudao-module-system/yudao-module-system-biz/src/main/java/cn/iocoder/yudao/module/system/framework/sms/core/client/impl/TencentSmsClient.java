@@ -45,11 +45,11 @@ public class TencentSmsClient extends AbstractSmsClient {
 
     /**
      * 是否国际/港澳台短信：
-     *
+     * 
      * 0：表示国内短信。
      * 1：表示国际/港澳台短信。
      */
-    private static final long INTERNATIONAL_CHINA = 0L;
+    private static final long INTERNATIONAL_CHINA = 0;
 
     public TencentSmsClient(SmsChannelProperties properties) {
         super(properties);
@@ -110,19 +110,28 @@ public class TencentSmsClient extends AbstractSmsClient {
                 .setApiMsg(sendResult.getStr("Message"));
     }
 
+    // irujia 这里添加了两种回调格式  1. 信息成功接收的接收回调  2. 用户回复的信息回调
     @Override
     public List<SmsReceiveRespDTO> parseSmsReceiveStatus(String text) {
-        JSONArray statuses = JSONUtil.parseArray(text);
-        // 字段参考
-        return convertList(statuses, status -> {
-            JSONObject statusObj = (JSONObject) status;
-            return new SmsReceiveRespDTO()
-                    .setSuccess("SUCCESS".equals(statusObj.getStr("report_status"))) // 是否接收成功
-                    .setErrorCode(statusObj.getStr("errmsg")) // 状态报告编码
-                    .setMobile(statusObj.getStr("mobile")) // 手机号
-                    .setReceiveTime(statusObj.getLocalDateTime("user_receive_time", null)) // 状态报告时间
-                    .setSerialNo(statusObj.getStr("sid")); // 发送序列号
-        });
+        if (JSONUtil.isTypeJSONArray(text)) {
+            JSONArray statuses = JSONUtil.parseArray(text);
+            return convertList(statuses, status -> {
+                JSONObject statusObj = (JSONObject) status;
+                boolean isSuccess = "SUCCESS".equals(statusObj.getStr("report_status"));
+                return new SmsReceiveRespDTO()
+                        .setSuccess(isSuccess)
+                        .setErrorCode(statusObj.getStr("errmsg"))
+                        .setMobile(statusObj.getStr("mobile"))
+                        .setReceiveTime(statusObj.getLocalDateTime("user_receive_time", null))
+                        .setSerialNo(statusObj.getStr("sid"))
+                        .setReceiveStatus(isSuccess ? 10 : 20); // 设置接收状态
+            });
+        } else if (JSONUtil.isTypeJSONObject(text)) {
+            // 用户回复信息，不记录
+            return Collections.emptyList();
+        } else {
+            throw new IllegalArgumentException("未知的回调信息格式: " + text);
+        }
     }
 
     @Override
