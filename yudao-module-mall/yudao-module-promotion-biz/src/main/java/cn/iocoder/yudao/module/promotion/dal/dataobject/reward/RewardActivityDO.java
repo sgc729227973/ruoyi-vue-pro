@@ -113,6 +113,10 @@ public class RewardActivityDO extends BaseDO {
          * 目的：用于订单支付后赠送优惠券
          */
         private Map<Long, Integer> giveCouponTemplateCounts;
+        /**
+         * irujia 优惠券 ID 的数组
+         */
+        private List<Long> couponIds; // 添加 couponIds 字段
 
     }
 

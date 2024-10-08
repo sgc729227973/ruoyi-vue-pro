@@ -6,7 +6,7 @@ spring:
   # 数据源配置项
   autoconfigure:
     exclude:
-      - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration # 默认 local 环境，不开启 Quartz 的自动配置
+#      - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration # 默认 local 环境，不开启 Quartz 的自动配置
       - de.codecentric.boot.admin.server.config.AdminServerAutoConfiguration # 禁用 Spring Boot Admin 的 Server 的自动配置
       - de.codecentric.boot.admin.server.ui.config.AdminServerUiAutoConfiguration # 禁用 Spring Boot Admin 的 Server UI 的自动配置
       - de.codecentric.boot.admin.client.config.SpringBootAdminClientAutoConfiguration # 禁用 Spring Boot Admin 的 Client 的自动配置
@@ -182,12 +182,8 @@ debug: false
 --- #################### 微信公众号、小程序相关配置 ####################
 wx:
   mp: # 公众号配置（必填），参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-starters/wx-java-mp-spring-boot-starter/README.md 文档
-#    app-id: wx041349c6f39b268b # 测试号（牛希尧提供的）
-#    secret: 5abee519483bc9f8cb37ce280e814bd0
-    app-id: wx5b23ba7a5589ecbb # 测试号（自己的）
-    secret: 2a7b3b20c537e52e74afd395eb85f61f
-#    app-id: wxa69ab825b163be19 # 测试号（Kongdy 提供的）
-#    secret: bd4f9fab889591b62aeac0d7b8d8b4a0
+    app-id: wxbd0a2a3efd77f223 # 测试号（自己的）
+    secret: 259abb74670cce83a93987c66c9a27a2
     # 存储配置，解决 AccessToken 的跨节点的共享
     config-storage:
       type: RedisTemplate # 采用 RedisTemplate 操作 Redis，会自动从 Spring 中获取
@@ -219,7 +215,7 @@ yudao:
     order-notify-url: http://yunai.natapp1.cc/admin-api/pay/notify/order # 支付渠道的【支付】回调地址
     refund-notify-url: http://yunai.natapp1.cc/admin-api/pay/notify/refund # 支付渠道的【退款】回调地址
   access-log: # 访问日志的配置项
-    enable: false
+    enable: true
   demo: false # 关闭演示模式
   wxa-code:
     env-version: develop # 小程序版本: 正式版为 "release"；体验版为 "trial"；开发版为 "develop"
